@@ -31,7 +31,7 @@ class SigningConsumer(ConsumerMixin):
 
     def __init__(self, connection, exchange, queue_name, worker_type,
                  taskcluster_config, signing_server_config, tools_checkout,
-                 my_ip, worker_id, pub_key):
+                 my_ip, worker_id, pub_key, s3_credentials, balrog_credentials):
         self.connection = connection
         self.exchange = Exchange(exchange, type='topic', passive=True)
         self.queue_name = queue_name

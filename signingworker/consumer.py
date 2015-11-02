@@ -33,6 +33,19 @@ def main():
     }
     with open(config.pub_key) as f:
         pub_key = f.read()
+
+    if config.s3_credentials:
+        with open(config.s3_credentials) as f:
+            s3_credentials = f.read()
+    else:
+        s3_credentials = None
+
+    if config.balrog_credentials:
+        with open(config.balrog_credentials) as f:
+            balrog_credentials = f.read()
+    else:
+        balrog_credentials = None
+
     with Connection(hostname=config.pulse_host, port=config.pulse_port,
                     userid=config.pulse_user, password=config.pulse_password,
                     virtual_host='/', ssl=True, heartbeat=5) as connection:
@@ -45,6 +58,8 @@ def main():
             my_ip=config.my_ip,
             worker_id=config.worker_id,
             pub_key=pub_key,
+            s3_credentials=s3_credentials,
+            balrog_credentials=balrog_credentials,
         )
         worker.run()
 
@@ -65,6 +80,8 @@ def define_config():
     ns.add_option(name="worker_id")
     ns.add_option(name="verbose", default=False)
     ns.add_option(name="pub_key")
+    ns.add_option(name="s3_credentials")
+    ns.add_option(name="balrog_credentials")
     return ns
 
 if __name__ == "__main__":
